@@ -244,9 +244,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 			form.insertAdjacentElement('afterend', statusMessage);
 
-			const request = new XMLHttpRequest();
-			request.open('POST', 'server.php');
-			request.setRequestHeader('Context-type', 'application/json');
 			const formData = new FormData(form);
 
 			const object = {};
@@ -254,20 +251,25 @@ window.addEventListener('DOMContentLoaded', () => {
 				object[key] = value;
 			});
 
-			const json = JSON.stringify(object);
-
-			request.send(json);
-
-			request.addEventListener('load', () => {
-				if (request.status === 200) {
-					console.log(request.response);
+			fetch('server.php', {
+				method: 'POST',
+				headers: {
+					'Context-type': 'application/json',
+				},
+				body: JSON.stringify(object),
+			})
+				.then((data) => data.text)
+				.then((data) => {
+					console.log(data);
 					showThanksModal(message.success);
-					form.reset();
 					statusMessage.remove();
-				} else {
+				})
+				.catch(() => {
 					showThanksModal(message.failure);
-				}
-			});
+				})
+				.finally(() => {
+					form.reset();
+				});
 		});
 	}
 
@@ -295,4 +297,105 @@ window.addEventListener('DOMContentLoaded', () => {
 			closeModal();
 		}, 4000);
 	}
+
+	fetch('https://jsonplaceholder.typicode.com/todos/1')
+		.then((response) => response.json())
+		.then((json) => console.log(json));
 });
+
+// const films = [
+// 	{
+// 		name: 'Titanic',
+// 		rating: 9,
+// 	},
+// 	{
+// 		name: 'Die hard 5',
+// 		rating: 5,
+// 	},
+// 	{
+// 		name: 'Matrix',
+// 		rating: 8,
+// 	},
+// 	{
+// 		name: 'Some bad film',
+// 		rating: 4,
+// 	},
+// ];
+
+// function showGoodFilms(arr) {
+// 	let newArr = [];
+// 	arr.map((item) => {
+// 		if (item.rating >= 8) {
+// 			newArr.push(item);
+// 		}
+// 	});
+// 	return console.log(newArr);
+// }
+
+// showGoodFilms(films);
+
+// function showListOfFilms(arr) {
+// 	let newStr = '';
+// 	const arrFilms = arr.map((item) => item.name);
+// 	newStr = arrFilms.join(', ');
+// 	console.log(newStr);
+// }
+
+// showListOfFilms(films);
+
+// function setFilmsIds(arr) {
+// 	let i = 0;
+// 	const newArr = arr.map((item) => {
+// 		item.id = i;
+// 		i++;
+// 		return item;
+// 	});
+// 	return newArr;
+// }
+
+// const transformedArray = setFilmsIds(films);
+
+// function checkFilms(arr) {
+// 	let idArr = arr.map((item) => item.id);
+// 	const result = idArr.every((item) => typeof item === 'number');
+// 	return console.log(result);
+// }
+
+// checkFilms(transformedArray);
+
+// const funds = [
+// 	{ amount: -1400 },
+// 	{ amount: 2400 },
+// 	{ amount: -1000 },
+// 	{ amount: 500 },
+// 	{ amount: 10400 },
+// 	{ amount: -11400 },
+// ];
+
+// const getPositiveIncomeAmount = (data) => {
+// 	let result = 0;
+
+// 	data.map((item) => {
+// 		if (item.amount >= 0) {
+// 			result += item.amount;
+// 		}
+// 		return result;
+// 	});
+
+// 	console.log(result);
+// };
+
+// getPositiveIncomeAmount(funds);
+
+// const getTotalIncomeAmount = (data) => {
+// 	let result = 0;
+
+// 	const newArr = data.map((item) => item.amount);
+// 	if (newArr.some((elem) => elem < 0)) {
+// 		result = newArr.reduce((acc, curr) => acc + curr, 0);
+// 	} else {
+// 		getPositiveIncomeAmount(data);
+// 	}
+// };
+
+// getTotalIncomeAmount(funds);
