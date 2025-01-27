@@ -23,7 +23,7 @@
     "gulp-postcss": "^9.0.1",
     "gulp-sass": "^5.1.0",
     "sass": "^1.63.3",
-    "webpack": "^5.86.0",
+    "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
     "webpack-stream": "^7.0.0"
   },
@@ -436,8 +436,8 @@
     "stream-exhaust": "^1.0.2",
     "stream-shift": "^1.0.3",
     "stream-throttle": "^0.1.3",
-    "string-width": "^4.2.3",
     "string_decoder": "^1.1.1",
+    "string-width": "^4.2.3",
     "strip-ansi": "^6.0.1",
     "strip-bom": "^2.0.0",
     "supports-color": "^5.5.0",
